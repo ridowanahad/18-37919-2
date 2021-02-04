@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<form action="/action_page.php">
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" value="Ridowan"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" value="Ahad"><br><br>
+  <label for="company">Company:</label><br>
+  <label type="txt" id="Company" name="Company" value="Red"><br>
+  <label for="Division">Choose a Division:</label>
+  <select id="Division" name="Division">
+    <option value="Dhaka">Dhaka</option>
+    <option value="Barishal">Barishal</option>
+    <option value="Chittagong">Chittagong</option>
+    <option value="Rajshahi">Rajshahi</option>
+    <option value="Khulna">Khulna</option>
+    <option value="Mymensingh">Mymensingh</option>
+    <option value="Rangpur">Rangpu</option>
+    <option value="Sylhet">Sylhet</option>
+
+  </select>
+
+  <h2>Checkboxes</h2>
+<p>The <strong>How may we </strong> contact you:</p>
+
+<form action="/action_page.php">
+  <input type="checkbox" id="contact1" name="contact1" value="Email">
+  <label for="contact1"> Email </label><br>
+  <input type="checkbox" id="contact2" name="contact2" value="Mobile/Telephone">
+  <label for="contact2"> Mobile/Telephone</label><br>
+  <input type="checkbox" id="contact3" name="contact3" value="Postal mail">
+  <label for="contact3"> Postal mail</label><br><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<h2>Additionl Information</h2>
+<p>Please enter your name,company or organization as you would like it to appear in our publication:</p>
+
+<form action="/action_page.php">
+  <textarea name="message" rows="20" cols="40">My company name is__.</textarea>
+  <br><br>
+  <input type="submit">
+</form>
+
+
+<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+<note>
+   <to>Notun kore suru kor</to>
+   <from>last</from>
+   <heading>Reminder</heading>
+   <body>Write down the lab task 1</body>
+</note>
