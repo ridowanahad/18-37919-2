@@ -1,161 +1,197 @@
 <!DOCTYPE HTML>  
 <html>
-<head>
-<style>
-.error {color: #FF0000;}
-</style>
-</head>
-<body>  
+  <head>
+    <style>
+      .error {color: #FF0000;}
+    </style>
+  </head>
+  <body>  
 
-<?php
-// define variables and set to empty values
-$nameErr = $emailErr = $genderErr = $websiteErr = "";
-$name = $email = $gender = $comment = $website = "";
+    <?php
+      $nameErr = $emailErr = $genderErr = $dobErr = $degreeErr = $bloodErr ="";
+      $name = $email = $gender = $dob = $degree = $dd = $mm = $yyyy= $blood="";
+      $degree=array();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["name"])) {
-    $nameErr = "Name is required";
-  } else {
-    $name = test_input($_POST["name"]);
-    // check if name only contains letters and whitespace
-    if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-      $nameErr = "Only letters and white space allowed";
-    }
-  }
-  
-  if (empty($_POST["email"])) {
-    $emailErr = "Email is required";
-  } else {
-    $email = test_input($_POST["email"]);
-    // check if e-mail address is well-formed
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $emailErr = "Invalid email format";
-    }
-  }
-    
-  if (empty($_POST["website"])) {
-    $website = "";
-  } else {
-    $website = test_input($_POST["website"]);
-    // check if URL address syntax is valid
-    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
-      $websiteErr = "Invalid URL";
-    }    
-  }
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["name"])) {
+          $nameErr = "Name is required";
+        } 
 
-  if (empty($_POST["comment"])) {
-    $comment = "";
-  } else {
-    $comment = test_input($_POST["comment"]);
-  }
+        else if(str_word_count($_POST["name"])<2){
+          $nameErr = "Name Contains at least two words";
 
-  if (empty($_POST["gender"])) {
-    $genderErr = "Gender is required";
-  } else {
-    $gender = test_input($_POST["gender"]);
-  }
-  if(!empty($_POST["degree"])){
-    $countDegree = count($_POST["degree"]);
-    if($countDegree<2){
-      $degreeErr = "At least two of them must be selected";
-    }
-  }else{
-     $degreeErr = "At least two of them must be selected";
-  }
-  if (empty($_POST["Blood Group"])) {
-      $bloodErr = "Must be selected";
-    } else {
-      $blood = test_input($_POST["Blood Group"]);
-    }    
-}
+        }
+
+        else {
+          $name = $_POST["name"];
+          if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+            $nameErr = "Only letters and white space allowed";
+          }
+        }
+
+        if (empty($_POST["email"])) {
+          $emailErr = "Email is required";
+          } else {
+          $email = $_POST["email"];
+          if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid email format";
+          }
+        }
 
 
 
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-?>
+        if (empty($_POST["gender"])) {
+          $genderErr = "Gender is required";
+          } else {
+          $gender = $_POST["gender"];
+        }
 
-<h2>Assesment Task</h2><fieldset>
-<p><span class="error">* Required field</span></p>
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"><br>
- <fieldset>
-  <legend>Name:</legend> <input type="text" name="name">
-  <span class="error">* <?php echo $nameErr;?></span><br>
-  <input type="submit"><br>
-  </fieldset>
-  <br><br>
-  <fieldset><legend>E-mail:</legend> <input type="text" name="email">
-  <span class="error">* <?php echo $emailErr;?></span>
-  <br><input type="submit">
-</fieldset>
-  <br>
 
- 
-<fieldset>
-<legend>Gender</legend>
- <legend> <input type="radio" id="Male" name="Male">
- <label for="Male">Male</label>
-<input type="radio" id="Female" name="Female">
- <label for="Female">Female</label>
- <input type="radio" id="Other" name="Other" >
-<label for="other">Other</label></legend>
- <span class="error">* <?php echo $genderErr;?></span><br>
-<input type="submit">
-   
-  </fieldset><br>
+        if (empty($_POST["dd"]) || empty($_POST["mm"]) || empty($_POST["yyyy"])) {
+          $dobErr= "Date of birth is required";
+        } 
 
-  <fieldset>
-<form action="/action_page.php">
-  <legend>DEGREE</legend>
+        else if($_POST["dd"]<1 || $_POST["dd"] >31){
 
-  <legend><input type="checkbox" id="Additional info1" name="Additional info1">
-  <label for="contact1"> SSC </label>
-  <input type="checkbox" id="contact2" name="Additional info2">
-  <label for="Additional info2"> HSC</label>
-  <input type="checkbox" id="Additional info3" name="Additional info3d">
-  <label for="Additional info3"> BSc</label>
-   <input type="checkbox" id="Additional info3" name="Additional info3d">
-  <label for="Additional info3"> MSc</label></legend>
-  <span class="error">* <?php echo $degreeErr;?></span><br>
-  <input type="submit">
+          $dobErr ="Day must be between 1-31";
+        }
+
+
+        else if($_POST["mm"]<1 || $_POST["mm"] >12){
+
+          $dobErr ="Month must be between 1-12";
+        }
+
+
+        else if($_POST["yyyy"]<1950 || $_POST["yyyy"] >2000){
+
+          $dobErr ="Year must be between 1950-2000";
+        }
+
+
+        else {
+          $dd = $_POST["dd"];
+          $mm = $_POST["mm"];
+          $yyyy = $_POST["yyyy"];
+        }
+
+
+        if (empty($_POST["blood"])) {
+          $bloodErr = "Blood Group is required";
+          } else {
+          $blood = $_POST["blood"];
+        }
+
+
+
+
+        if (empty($_POST["degree"])) {
+          $degreeErr = "Degree is required";
+        } 
+
+        else if (count($_POST["degree"])!=2) {
+          $degreeErr = "Must Have 2 Degree";
+        } 
+
+
+        else {
+          $degree = $_POST["degree"];
+        } 
+      }
+
+
+    ?>
+
+
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+
+<h2>Assesment Task</h2><fieldset><br>
+      <fieldset style="width:250px;height: 55px;">
+        <legend>NAME</legend>
+        <input type="text" name="name" value="<?php echo $name;?>">
+        <span class="error"><?php echo $nameErr;?></span>
+        <hr>
+         <input type="submit" name="submit" value="Submit">  <br>
+      </fieldset><br>
+
+      <fieldset style="width:250px;height: 55px;">
+        <legend>EMAIL</legend>
+        <input type="text" name="email" value="<?php echo $email;?>">
+        <span class="error"><?php echo $emailErr;?></span>
+        <hr>
+         <input type="submit" name="submit" value="Submit">  <br>
+      </fieldset><base href=""><base href=""><br>
+
+      <fieldset style="width:250px;height: 55px;">
+        <legend>DATE OF BIRTH</legend>
+        <input type="text" name="dd" placeholder="dd" value="<?php echo $dd;?>" size="2"> / 
+        <input type="text" name="mm" placeholder="mm" value="<?php echo $mm;?>" size="2"> / 
+        <input type="text" name="yyyy" placeholder="yyyy" value="<?php echo $yyyy;?>" size="2">
+        <span class="error"><?php echo $dobErr;?></span>
+        <hr>
+         <input type="submit" name="submit" value="Submit">  <br>
+      </fieldset><br>
+
+
+      <fieldset style="width:250px;height: 55px;">
+        <legend>Gender</legend>
+        <input type="radio" name="gender" value="Male">Male
+        <input type="radio" name="gender" value="Female">Female
+        <input type="radio" name="gender" value="Other">Other
+
+        <span class="error"><?php echo $genderErr;?></span>
+        <hr>
+         <input type="submit" name="submit" value="Submit">  <br>
+      </fieldset><br>
+
+
+      <fieldset style="width:250px;height: 55px;">
+        <legend>DEGREE</legend>
+        <input type="checkbox" name="degree[]" value="SSC">SSC
+        <input type="checkbox" name="degree[]" value="HSC">HSC
+        <input type="checkbox" name="degree[]" value="BSc">BSc
+        <input type="checkbox" name="degree[]" value="MSc">MSc
+
+        <span class="error"><?php echo $degreeErr;?></span>
+        <hr>
+         <input type="submit" name="submit" value="Submit">  <br><br>
+      </fieldset><br>
+
+
+      <fieldset style="width:250px;height: 55px;">
+        <legend>BLOOD GROUP</legend>
+        <select name="blood">
+          <option value=""> </option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+        </select>
+        <span class="error"><?php echo $bloodErr;?></span>
+        <hr>
+        <input type="submit" name="submit" value="Submit">  <br>
+      </fieldset>
+
 </fieldset><br>
+    </form>
 
+    <?php
+      echo "<h2>Output:</h2>";
+      echo $name;
+      echo "<br>";
+      echo $email;
+      echo "<br>";
+      echo $dd."/".$mm."/".$yyyy;;
+      echo "<br>";
+      echo $gender;
+      echo "<br>";
+      foreach($degree as $value)
+      {echo $value.",";}
+        echo "<br>";
+      echo $blood;
 
-<fieldset>
-<legend>Blood Group</legend>
- <label for="Blood Group">Blood Group</label>
-  <select id="Blood Group" name="Blood Group">
-    <option value="A+">A+</option>
-    <option value="A-">A-</option>
-    <option value="B+">B+</option>
-    <option value="B-">B-</option>
-    <option value="O+">O+</option>
-    <option value="O-">O-</option>
-    <option value="AB+">AB+</option>
-    <option value="AB-">AB-</option>
-    <span class="error">* <?php echo $bloodErr;?></span>
-    <input type="submit">
-    <br>
-  </select>
-  </fieldset>
-  </fieldset>
-</form>
-<?php
-echo "<h2>Your Input:</h2>";
-echo $name;
-echo "<br>";
-echo $email;
-echo "<br>";
-echo $website;
-echo "<br>";
-echo $comment;
-echo "<br>";
-echo $gender;
-?>
-
-</body>
+    ?>
+  </body>
 </html>
